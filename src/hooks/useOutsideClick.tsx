@@ -3,9 +3,12 @@ import { useEffect } from 'react';
 
 const useOutsideClick = (
 	ref: React.RefObject<HTMLElement>,
-	callback: () => void
+	callback: () => void,
+	isOpen: boolean
 ) => {
 	useEffect(() => {
+		if (!isOpen) return;
+
 		const handleClickOutside = (event: MouseEvent) => {
 			if (ref.current && !ref.current.contains(event.target as Node)) {
 				callback();
@@ -25,7 +28,7 @@ const useOutsideClick = (
 			document.removeEventListener('mousedown', handleClickOutside);
 			document.removeEventListener('keydown', handleKeyDown);
 		};
-	}, [ref, callback]);
+	}, [ref, callback, isOpen]);
 };
 
 export default useOutsideClick;

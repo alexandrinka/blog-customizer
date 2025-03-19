@@ -33,11 +33,15 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormProps> = ({
 	const [isMounted, setIsMounted] = useState(false);
 	const [formValues, setFormValues] = useState(articleStyles);
 
-	useOutsideClick(formRef, () => {
-		if (isOpen) {
-			setIsOpen(false);
-		}
-	});
+	useOutsideClick(
+		formRef,
+		() => {
+			if (isOpen) {
+				setIsOpen(false);
+			}
+		},
+		isOpen
+	);
 
 	useEffect(() => {
 		if (isOpen) setIsMounted(true);
@@ -53,24 +57,12 @@ export const ArticleParamsForm: React.FC<ArticleParamsFormProps> = ({
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		setArticleStyles({
-			fontFamilyOption: formValues.fontFamilyOption,
-			fontSizeOption: formValues.fontSizeOption,
-			fontColor: formValues.fontColor,
-			backgroundColor: formValues.backgroundColor,
-			contentWidth: formValues.contentWidth,
-		});
+		setArticleStyles(formValues);
 		setIsOpen(false);
 	};
 
 	const handleReset = () => {
-		setFormValues({
-			fontFamilyOption: defaultArticleState.fontFamilyOption,
-			fontSizeOption: defaultArticleState.fontSizeOption,
-			fontColor: defaultArticleState.fontColor,
-			backgroundColor: defaultArticleState.backgroundColor,
-			contentWidth: defaultArticleState.contentWidth,
-		});
+		setFormValues(defaultArticleState);
 		setArticleStyles(defaultArticleState);
 	};
 
